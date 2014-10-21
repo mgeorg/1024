@@ -14,7 +14,7 @@
 #define CHECK {int* ptr = NULL; \
                printf("CHECK failed.\n"); \
                fflush(stdout); \
-	       *ptr = 0;}
+               *ptr = 0;}
 
 Display                 *dpy;
 Window                  root;
@@ -60,8 +60,8 @@ class Board {
     for (int row = 0; row < 4; ++row) {
       for (int col = 0; col < 4; ++col) {
         if (board_[row][col] != other.board_[row][col]) {
-	  return false;
-	}
+          return false;
+        }
       }
     }
     return true;
@@ -77,38 +77,38 @@ class Board {
     for (int row = 0; row < 4; ++row) {
       for (int col = 0; col < 4; ++col) {
         if (board_[row][col] == 0) {
-	  if (r == 0) {
-	    board_[row][col] = 1;
+          if (r == 0) {
+            board_[row][col] = 1;
             --empty_;
-	    return;
-	  }
-	  --r;
-	}
+            return;
+          }
+          --r;
+        }
       }
     }
     CHECK;
   }
- 
+
   void AllItems(std::vector<Board>* all_boards) {
     all_boards->reserve(empty_);
     for (int row = 0; row < 4; ++row) {
       for (int col = 0; col < 4; ++col) {
         if (board_[row][col] == 0) {
-	  all_boards->emplace_back(*this);
-	  all_boards->back().board_[row][col] = 1;
-	  all_boards->back().empty_ -= 1;
-	}
+          all_boards->emplace_back(*this);
+          all_boards->back().board_[row][col] = 1;
+          all_boards->back().empty_ -= 1;
+        }
       }
     }
   }
- 
+
   void SetEmpty() {
     empty_ = 0;
     for (int row = 0; row < kRowMax; ++row) {
       for (int col = 0; col < kColMax; ++col) {
         if (board_[row][col] == 0) {
-	  ++empty_;
-	}
+          ++empty_;
+        }
       }
     }
   }
@@ -120,28 +120,28 @@ class Board {
       int i = 0;  // The current position in the new board.
       for (int col = 0; col < kColMax; ++col) {
         if (board_[row][col] != 0) {
-	  new_position->board_[row][i] = board_[row][col];
-	  if (i != col) {
-	    no_change = false;
+          new_position->board_[row][i] = board_[row][col];
+          if (i != col) {
+            no_change = false;
           }
           ++i;
         }
       }
       // Fill in the remaining zeros.
       for (; i < kColMax; ++i) {
-	new_position->board_[row][i] = 0;
+        new_position->board_[row][i] = 0;
       }
       // Combine pieces.
       for (int col = 0; col < kColMax-1; ++col) {
         if (new_position->board_[row][col] > 0 &&
-	    new_position->board_[row][col] ==
-	    new_position->board_[row][col+1]) {
-	  no_change = false;
-	  new_position->board_[row][col] *= 2;
-	  for (int i = col+1; i < kColMax-1; ++i) {
-	    new_position->board_[row][i] = new_position->board_[row][i+1];
-	  }
-	  new_position->board_[row][kColMax-1] = 0;
+            new_position->board_[row][col] ==
+            new_position->board_[row][col+1]) {
+          no_change = false;
+          new_position->board_[row][col] *= 2;
+          for (int i = col+1; i < kColMax-1; ++i) {
+            new_position->board_[row][i] = new_position->board_[row][i+1];
+          }
+          new_position->board_[row][kColMax-1] = 0;
         }
       }
     }
@@ -149,7 +149,7 @@ class Board {
     //return no_change;
     return !(*this == *new_position);
   }
- 
+
   bool Right(Board* new_position) {
     bool no_change = true;
     for (int row = 0; row < kRowMax; ++row) {
@@ -157,35 +157,35 @@ class Board {
       int i = kColMax-1;  // The current position in the new board.
       for (int col = kColMax-1; col >= 0; --col) {
         if (board_[row][col] != 0) {
-	  new_position->board_[row][i] = board_[row][col];
-	  if (i != col) {
-	    no_change = false;
+          new_position->board_[row][i] = board_[row][col];
+          if (i != col) {
+            no_change = false;
           }
           --i;
         }
       }
       // Fill in the remaining zeros.
       for (; i >= 0; --i) {
-	new_position->board_[row][i] = 0;
+        new_position->board_[row][i] = 0;
       }
       // Combine pieces.
       for (int col = kColMax-1; col >= 0; --col) {
         if (new_position->board_[row][col] > 0 &&
             new_position->board_[row][col] ==
-	    new_position->board_[row][col-1]) {
-	  no_change = false;
-	  new_position->board_[row][col] *= 2;
-	  for (int i = col-1; i >= 1; --i) {
-	    new_position->board_[row][i] = new_position->board_[row][i-1];
-	  }
-	  new_position->board_[row][0] = 0;
+            new_position->board_[row][col-1]) {
+          no_change = false;
+          new_position->board_[row][col] *= 2;
+          for (int i = col-1; i >= 1; --i) {
+            new_position->board_[row][i] = new_position->board_[row][i-1];
+          }
+          new_position->board_[row][0] = 0;
         }
       }
     }
     new_position->SetEmpty();
     return !(*this == *new_position);
   }
- 
+
   bool Up(Board* new_position) {
     bool no_change = true;
     for (int col = 0; col < kColMax; ++col) {
@@ -193,28 +193,28 @@ class Board {
       int i = 0;  // The current position in the new board.
       for (int row = 0; row < kRowMax; ++row) {
         if (board_[row][col] != 0) {
-	  new_position->board_[i][col] = board_[row][col];
-	  if (i != col) {
-	    no_change = false;
+          new_position->board_[i][col] = board_[row][col];
+          if (i != col) {
+            no_change = false;
           }
           ++i;
         }
       }
       // Fill in the remaining zeros.
       for (; i < kRowMax; ++i) {
-	new_position->board_[i][col] = 0;
+        new_position->board_[i][col] = 0;
       }
       // Combine pieces.
       for (int row = 0; row < kRowMax-1; ++row) {
         if (new_position->board_[row][col] > 0 &&
             new_position->board_[row][col] ==
-	    new_position->board_[row+1][col]) {
-	  no_change = false;
-	  new_position->board_[row][col] *= 2;
-	  for (int i = row+1; i < kRowMax-1; ++i) {
-	    new_position->board_[i][col] = new_position->board_[i+1][col];
-	  }
-	  new_position->board_[kRowMax-1][col] = 0;
+            new_position->board_[row+1][col]) {
+          no_change = false;
+          new_position->board_[row][col] *= 2;
+          for (int i = row+1; i < kRowMax-1; ++i) {
+            new_position->board_[i][col] = new_position->board_[i+1][col];
+          }
+          new_position->board_[kRowMax-1][col] = 0;
         }
       }
     }
@@ -229,28 +229,28 @@ class Board {
       int i = kRowMax-1;  // The current position in the new board.
       for (int row = kRowMax-1; row >= 0; --row) {
         if (board_[row][col] != 0) {
-	  new_position->board_[i][col] = board_[row][col];
-	  if (i != col) {
-	    no_change = false;
+          new_position->board_[i][col] = board_[row][col];
+          if (i != col) {
+            no_change = false;
           }
           --i;
         }
       }
       // Fill in the remaining zeros.
       for (; i >= 0; --i) {
-	new_position->board_[i][col] = 0;
+        new_position->board_[i][col] = 0;
       }
       // Combine pieces.
       for (int row = kRowMax-1; row >= 0; --row) {
         if (new_position->board_[row][col] > 0 &&
             new_position->board_[row][col] ==
-	    new_position->board_[row-1][col]) {
-	  no_change = false;
-	  new_position->board_[row][col] *= 2;
-	  for (int i = row-1; i >= 1; --i) {
-	    new_position->board_[i][col] = new_position->board_[i-1][col];
-	  }
-	  new_position->board_[0][col] = 0;
+            new_position->board_[row-1][col]) {
+          no_change = false;
+          new_position->board_[row][col] *= 2;
+          for (int i = row-1; i >= 1; --i) {
+            new_position->board_[i][col] = new_position->board_[i-1][col];
+          }
+          new_position->board_[0][col] = 0;
         }
       }
     }
@@ -299,16 +299,16 @@ void DrawBoard(const Board& board) {
 
 int main(int argc, char *argv[]) {
   dpy = XOpenDisplay(NULL);
- 
+
   if(dpy == NULL) {
     printf("\n\tcannot connect to X server\n\n");
     exit(0);
   }
 
   root = DefaultRootWindow(dpy);
-  
+
   vi = glXChooseVisual(dpy, 0, att);
-  
+
   if(vi == NULL) {
     printf("\n\tno appropriate visual found\n\n");
     exit(0);
@@ -317,20 +317,20 @@ int main(int argc, char *argv[]) {
     /* %p creates hexadecimal output like in glxinfo */
     printf("\n\tvisual %p selected\n", (void *)vi->visualid);
   }
-  
+
   cmap = XCreateColormap(dpy, root, vi->visual, AllocNone);
-  
+
   swa.colormap = cmap;
   swa.event_mask = ExposureMask | KeyPressMask;
-  
+
   win = XCreateWindow(dpy, root, 0, 0, 600, 600, 0, vi->depth, InputOutput, vi->visual, CWColormap | CWEventMask, &swa);
-  
+
   XMapWindow(dpy, win);
   XStoreName(dpy, win, "1024 Game");
-  
+
   glc = glXCreateContext(dpy, vi, NULL, GL_TRUE);
   glXMakeCurrent(dpy, win, glc);
-  
+
   glEnable(GL_DEPTH_TEST); 
 
   Board board;
@@ -341,7 +341,7 @@ int main(int argc, char *argv[]) {
     bool no_update = true;
 
     XNextEvent(dpy, &xev);
-    
+
     if (xev.type == Expose) {
       XGetWindowAttributes(dpy, win, &gwa);
       glViewport(0, 0, gwa.width, gwa.height);
@@ -351,37 +351,37 @@ int main(int argc, char *argv[]) {
       if (xev.xkey.keycode == 114) {
         Board new_board;
         if (!board.Right(&new_board)) {
-	  printf("The board didn't change!!!\n");
-	} else {
-	  no_update = false;
+          printf("The board didn't change!!!\n");
+        } else {
+          no_update = false;
           board = new_board;
         }
       } else if (xev.xkey.keycode == 113) {
         Board new_board;
-	board.Left(&new_board);
+        board.Left(&new_board);
         if (board == new_board) {
-	  printf("The board didn't change!!!\n");
-	} else {
-	  no_update = false;
+          printf("The board didn't change!!!\n");
+        } else {
+          no_update = false;
           board = new_board;
         }
       } else if (xev.xkey.keycode == 111) {
         Board new_board;
         if (!board.Up(&new_board)) {
-	  printf("The board didn't change!!!\n");
-	} else {
-	  no_update = false;
+          printf("The board didn't change!!!\n");
+        } else {
+          no_update = false;
           board = new_board;
-	}
+        }
         board = new_board;
       } else if (xev.xkey.keycode == 116) {
         Board new_board;
         if (!board.Down(&new_board)) {
-	  printf("The board didn't change!!!\n");
-	} else {
-	  no_update = false;
+          printf("The board didn't change!!!\n");
+        } else {
+          no_update = false;
           board = new_board;
-	}
+        }
         board = new_board;
       } else if (xev.xkey.keycode == 53 /*q*/) {
         glXMakeCurrent(dpy, None, NULL);
@@ -395,7 +395,7 @@ int main(int argc, char *argv[]) {
                xev.xkey.state);
       }
     }
-    
+
     if (!no_update) {
       board.AddItem();
     }
